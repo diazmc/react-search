@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Card from './Card';
 
 function App() {
+
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => {
+        if(!response.ok) {
+          throw new Error(`Response status: ${response.status}`)
+        }
+        return response.json();
+      })
+      .then(users => {
+        setUsers(users);
+      })
+      .catch(err => console.log(err.message));
+  },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {users && 
+      users.map(user => {
+        return <Card key={user.id} user={user} />
+      })
+    }
     </div>
   );
 }
