@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from './Card';
+import Search from "./Search";
 
 function App() {
 
@@ -19,12 +19,10 @@ function App() {
   },[])
 
   return (
-    <div className="App">
-    {users && 
-      users.map(user => {
-        return <Card key={user.id} user={user} />
-      })
-    }
+    <div className="tc ma0 pa4 min-vh-100">
+      {users && 
+        <Search users={users}/>
+      }
     </div>
   );
 }
